@@ -81,5 +81,112 @@ protocol MyProtocol {
 //adopt . conform
 
 struct MyStruct:MyProtocol{
+    func showMessage() {
+        print( "Now conforming...")
+    }
+    
+    var name: String {
+        return "Gus"
+    }
+    
     
 }
+
+
+//Three Parts to error Handling
+/* 1 Define it
+        What is?
+        Connection error?
+        Save error?
+        Calculation error?
+    
+   2 Throw it
+ 
+        Where and when can it happen?
+ 
+    3 Handle it
+ */
+
+
+//Define
+
+
+enum ServerError:Error{
+    
+    case noConnection
+    case serverNotFound
+    case authenticationRefused
+    
+}
+
+// use it
+
+
+func checkStatus(serverNumber:Int) throws -> String{
+    
+    switch serverNumber{
+        case 1: print("You have no connection.")
+                throw ServerError.noConnection
+        case 2: print("Authentication failed")
+                throw ServerError.authenticationRefused
+        case 3: print("Server 3 is up and running!")
+        
+        default:
+            print("Cant find that server")
+            throw ServerError.serverNotFound
+    }
+    
+    return "Success"
+    
+}
+
+//handle it
+
+do  {
+    let result = try checkStatus(serverNumber: 1)
+    print(result)
+}
+catch ServerError.noConnection {
+    
+}
+catch {
+    print("The problem is:\(error)")
+}
+
+
+
+if let result = try? checkStatus(serverNumber: 1){
+    print(result)
+}
+
+//guard and defer
+
+func processTrack(trackName: String?, artist: String?, duration: Int?){
+    
+    
+    if let unwrappedName = trackName,
+           let unwrappedArtist = artist,
+              let  unwrappedDuration = duration{
+        
+    } else {
+        
+        print("THE VALUES NOT PROVIDED")
+    }
+    
+    
+}
+
+
+func processTrack_GUARD(trackName: String?, artist: String?, duration: Int?){
+    
+    guard let unwrppedTrack = trackName ,
+          let unwrppedArtist = artist,
+          let unwrppedDuration = duration
+            else { return }
+  
+    
+    
+}
+
+
+//defer
